@@ -1,7 +1,7 @@
 <template>
-  <h1>wfts-ai-chat</h1>
+  <Comm />
 </template>
 
 <script setup lang="ts">
-
+import Comm from './components/Comm.vue'
 </script>

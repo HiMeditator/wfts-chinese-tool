@@ -2,14 +2,16 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../build/icon.png?asset'
+import { commHandler } from './handler/commHandler'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
     icon: icon,
-    width: 900,
-    height: 670,
+    width: 400,
+    height: 300,
     show: false,
     autoHideMenuBar: true,
+    alwaysOnTop: true,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
@@ -40,6 +42,8 @@ app.whenReady().then(() => {
   })
 
   createWindow()
+
+  commHandler()
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
