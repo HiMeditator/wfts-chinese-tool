@@ -18,6 +18,18 @@
 
 **数据类型：** `string`
 
+### `server.listen`
+
+**介绍：** 让 Python 后端服务监听系统音频输出
+
+**数据类型：** `string`
+
+### `server.convert`
+
+**介绍：** 将 Python 后端服务监听的音频转换成文本
+
+**数据类型：** `string`
+
 ### `server.stop`
 
 **介绍：** 停止 Python 后端服务

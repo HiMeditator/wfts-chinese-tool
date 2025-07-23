@@ -5,6 +5,9 @@
   <br>
   <button @click="start">Start</button>
   <button @click="send">Send</button>
+  <button @click="listen">Listen</button>
+  <button @click="convert">Convert</button>
+  <button @click="send">Send</button>
   <button @click="stop">Stop</button>
 </div>
 </template>
@@ -20,6 +23,14 @@ function start() {
 
 function send() {
   window.electron.ipcRenderer.send('server.send', text.value)
+}
+
+function listen() {
+  window.electron.ipcRenderer.send('server.listen')
+}
+
+function convert() {
+  window.electron.ipcRenderer.send('server.convert')
 }
 
 function stop() {

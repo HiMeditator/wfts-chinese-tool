@@ -10,6 +10,14 @@ export function commHandler() {
     chatProcess.sendCommand('send', data)
   })
 
+  ipcMain.on('server.listen', () => {
+    chatProcess.sendCommand('listen')
+  })
+
+  ipcMain.on('server.convert', () => {
+    chatProcess.sendCommand('convert')
+  })
+
   ipcMain.on('server.stop', () => {
     chatProcess.stop()
   })

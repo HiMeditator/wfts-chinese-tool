@@ -25,7 +25,7 @@
 
 停止 Python 端服务。
 
-### `print`
+### `send`
 
 `content`: string
 

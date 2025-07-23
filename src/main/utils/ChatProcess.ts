@@ -7,13 +7,17 @@ import { Log } from './Log'
 
 const commandList =[
   "stop",
-  "send"
+  "send",
+  "listen",
+  "convert",
 ]
 
 function handleMessage(msg: any) {
-  console.log(msg)
   if(msg.command === 'print') {
     Log.info('Python server output:', msg.content)
+  }
+  else if(msg.command === 'caption') {
+    console.log(msg.text)
   }
 }
 
@@ -80,9 +84,7 @@ class ChatProcess {
           Log.info('Python server ready')
           this.connect()
         }
-        else {
-          handleMessage(msg)
-        }
+        else { handleMessage(msg) }
       }
       catch(e){
         Log.error('Error parsing JSON:', data.toString())
@@ -90,7 +92,7 @@ class ChatProcess {
     });
 
     this.process.stderr.on('data', (data: any) => {
-      Log.error(`Python server error: ${data}`)
+      Log.error(`Python server error:\n${data}`)
     });
 
     this.process.on('close', (code: any) => {

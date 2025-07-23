@@ -8,14 +8,7 @@
 
 Python 进程标准输出 (`sys.stdout`) 的内容一定为一行一行的字符串。且每行字符串均可以解释为一个 JSON 对象。
 
-对象参数如下：
-
-```js
-{
-  command: string,
-  content: string
-}
-```
+每个 JSON 对象一定有 `command` 参数。
 
 ## `command` 参数约定
 
@@ -23,12 +16,36 @@ Python 进程标准输出 (`sys.stdout`) 的内容一定为一行一行的字符
 
 ### `ready`
 
-`conetnt`: 空
+```js
+{
+  command: "ready"
+}
+```
 
 表示 Python 端已就绪，node.js 端可以开始建立 WebSocket 连接了。
 
 ### `print`
 
-`content`: string
+```js
+{
+  command: "print",
+  content: string
+}
+```
 
 输出 Python 端打印的内容。
+
+### `caption`
+
+```js
+{
+  command: "caption",
+  index: number,
+  time_s: string,
+  time_t: string,
+  text: string,
+  translation: string
+}
+```
+
+传输 Python 端监听到的音频流转换为的文本数据。
