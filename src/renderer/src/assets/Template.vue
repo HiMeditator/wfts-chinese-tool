@@ -1,7 +1,11 @@
 <template>
-  <h1>wfts-ai-chat</h1>
+
 </template>
 
 <script setup lang="ts">
 
 </script>
+
+<style scoped>
+
+</style>
