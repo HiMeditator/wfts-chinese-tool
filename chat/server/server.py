@@ -8,7 +8,7 @@ def handle_client(client_socket):
     global chat_bot
     while True:
         try:
-            data = client_socket.recv(1024).decode('utf-8')
+            data = client_socket.recv(8192).decode('utf-8')
             if not data:
                 continue
             data = json.loads(data)
@@ -19,23 +19,23 @@ def handle_client(client_socket):
                 chat_bot.add_system_prompt(data['content'])
             elif data['command'] == 'listen':
                 if chat_bot.status != 'ready':
-                    stderr('Chatbot is not ready')
+                    stderr(f'Inappropriate Status: Chatbot is not ready, current status: {chat_bot.status}.')
                     continue
                 chat_bot.start_listening()
                 chat_bot.status = 'listen'
             elif data['command'] == 'answer':
                 if chat_bot.status != 'listen':
-                    stderr('Chatbot is not listening')
+                    stderr(f'Inappropriate Status: Chatbot is not listening, current status: {chat_bot.status}.')
                     continue
                 chat_bot.stop_listening()
                 chat_bot.status = 'answer'
             elif data['command'] == 'output':
                 if chat_bot.status != 'synthesis':
-                    stderr('Answer audio not ready')
+                    stderr(f'Inappropriate Status: Answer audio not ready, current status: {chat_bot.status}.')
                     continue
                 chat_bot.status = 'output'
             else:
-                stderr('Client command not found')
+                stderr('Command Error: Client command not found.')
 
         except Exception as e:
             stderr(f'Communication error: {e}')

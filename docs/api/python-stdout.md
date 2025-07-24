@@ -18,7 +18,8 @@ Python 进程标准输出 (`sys.stdout`) 的内容一定为一行一行的字符
 
 ```js
 {
-  command: "ready"
+  command: "ready",
+  content: ""
 }
 ```
 
@@ -35,16 +36,38 @@ Python 进程标准输出 (`sys.stdout`) 的内容一定为一行一行的字符
 
 输出 Python 端打印的内容。
 
+### `status`
+
+```js
+{
+  command: "print",
+  content: "ready" | "listening" | "answering" | "synthesising" | "sythesized" | "outputting"
+}
+```
+
+当前 Python 端所处的状态。
+
 ### `caption`
 
 ```js
 {
   command: "caption",
-  time_s: string,
-  time_t: string,
+  index: number,
+  end: boolean,
   text: string,
   translation: string
 }
 ```
 
 传输 Python 端监听到的音频流转换为的文本数据。
+
+### `answer`
+
+```js
+{
+  command: "answer",
+  content: string
+}
+```
+
+对于 Stella 的求助，大模型的回答。

@@ -4,8 +4,9 @@ from dashscope.audio.asr import (
     TranslationResult,
     TranslationRecognizerRealtime
 )
+from dashscope.common.error import InvalidParameter
 import dashscope
-from datetime import datetime
+from utils import stdout, stderr
 
 class Callback(TranslationRecognizerCallback):
     """
@@ -17,7 +18,6 @@ class Callback(TranslationRecognizerCallback):
 
     def on_open(self) -> None:
         self.cur_id = -1
-        self.time_str = ''
 
     def on_close(self) -> None:
         pass
@@ -30,24 +30,18 @@ class Callback(TranslationRecognizerCallback):
         usage
     ) -> None:
         caption = {}
+        caption['command'] = "caption"
+
         if transcription_result is not None:
             caption['index'] = transcription_result.sentence_id
+            caption['end'] = transcription_result.is_sentence_end
             caption['text'] = transcription_result.text
-            if caption['index'] != self.cur_id:
-                self.cur_id = caption['index']
-                cur_time = datetime.now().strftime('%H:%M:%S.%f')[:-3]
-                caption['time_s'] = cur_time
-                self.time_str = cur_time
-            else:
-                caption['time_s'] = self.time_str
-            caption['time_t'] = datetime.now().strftime('%H:%M:%S.%f')[:-3]
             caption['translation'] = ""
 
         if translation_result is not None:
             lang = translation_result.get_language_list()[0]
             caption['translation'] = translation_result.get_translation(lang).text
 
-        caption['command'] = "caption"
         self.add_func(caption)
 
 class GummyTranslator:
@@ -81,8 +75,13 @@ class GummyTranslator:
 
     def send_audio_frame(self, data: bytes):
         """发送音频帧"""
-        if not self.running: return
-        self.translator.send_audio_frame(data)
+        if not self.running:
+            stderr("Gummy engine is not running")
+            return
+        try:
+            self.translator.send_audio_frame(data)
+        except InvalidParameter:
+            stderr("Gummy: Invalid parameter")
 
     def stop(self):
         """停止 Gummy 引擎"""

@@ -9,7 +9,7 @@ def stdout_cmd(command: str, content = ""):
     sys.stdout.write(json.dumps(msg) + "\n")
     sys.stdout.flush()
 
-def stdout_obj(obj: object):
+def stdout_obj(obj):
     sys.stdout.write(json.dumps(obj) + "\n")
     sys.stdout.flush()
 

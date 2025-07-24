@@ -83,7 +83,7 @@ class AudioStream:
         self.CHUNK = self.RATE // chunk_rate
         self.INDEX = self.device["index"]
 
-    def printInfo(self):
+    def getInfo(self):
         dev_info = f"""
         采样设备：
             - 设备类型：{ "音频输出" if self.audio_type == 0 else "音频输入" }
@@ -101,7 +101,7 @@ class AudioStream:
         音频通道数：{self.CHANNELS}
         音频采样率：{self.RATE}
         """
-        print(dev_info)
+        return dev_info
 
     def openStream(self):
         """

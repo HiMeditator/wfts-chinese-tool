@@ -2,45 +2,28 @@
 <div class="comm">
   <a-textarea
     class="prompt-input"
-    v-model:value="text"
+    v-model:value="prompt"
     placeholder="输入系统提示词..."
   />
-  <a-button size="small" type="primary" @click="start">Start</a-button>
-  <a-button size="small" type="primary" @click="prompt">Prompt</a-button>
-  <a-button size="small" type="primary" @click="listen">Listen</a-button>
-  <a-button size="small" type="primary" @click="answer">Answer</a-button>
-  <a-button size="small" type="primary" @click="output">Output</a-button>
-  <a-button size="small" type="primary" @click="stop">Stop</a-button>
+  <a-button size="small" type="primary" @click="send('start')">Start</a-button>
+  <a-button size="small" type="primary" @click="send('prompt')">Prompt</a-button>
+  <a-button size="small" type="primary" @click="send('listen')">Listen</a-button>
+  <a-button size="small" type="primary" @click="send('answer')">Answer</a-button>
+  <a-button size="small" type="primary" @click="send('output')">Output</a-button>
+  <a-button size="small" type="primary" @click="send('stop')">Stop</a-button>
 </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const text = ref('')
+const prompt = ref('你需要扮演我的朋友 River 用英语和我对话。')
 
-function start() {
-  window.electron.ipcRenderer.send('server.start')
-}
-
-function prompt() {
-  window.electron.ipcRenderer.send('server.prompt', text.value)
-}
-
-function listen() {
-  window.electron.ipcRenderer.send('server.listen')
-}
-
-function answer() {
-  window.electron.ipcRenderer.send('server.answer')
-}
-
-function output() {
-  window.electron.ipcRenderer.send('server.output')
-}
-
-function stop() {
-  window.electron.ipcRenderer.send('server.stop')
+function send(cmd: string){
+  if(cmd == 'prompt')
+    window.electron.ipcRenderer.send(`server.${cmd}`, prompt.value)
+  else
+    window.electron.ipcRenderer.send(`server.${cmd}`)
 }
 </script>
 
@@ -53,5 +36,4 @@ function stop() {
   display: block;
   margin-bottom: 10px;
 }
-
 </style>

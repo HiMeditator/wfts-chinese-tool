@@ -28,4 +28,8 @@ export class Log {
     console.log(str)
     Log.window?.webContents.send('error.send', str)
   }
+
+  static sendMessage(msg: any) {
+    Log.window?.webContents.send('message.send', msg)
+  }
 }

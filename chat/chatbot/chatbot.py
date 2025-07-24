@@ -1,25 +1,21 @@
 from sysaudio import AudioStream
 from sysaudio import audio_output, audio_inject
 from utils import GummyTranslator
-from utils.sysout import stdout_obj
+from utils.sysout import stdout_obj, stdout_cmd, stdout
 
 import dashscope
 from dashscope.api_entities.dashscope_response import Message
 from dashscope.audio.tts_v2 import SpeechSynthesizer, AudioFormat
 
+
 class ChatBot:
     def __init__(self):
         self.status = "ready"
-        self.stream = AudioStream(0)
+        self.stream = AudioStream(1)
         self.translator = GummyTranslator(
             self.add_caption,
             self.stream.RATE,
             "zh", ""
-        )
-        self.synthesizer = SpeechSynthesizer(
-            model='cosyvoice-v2',
-            voice='loongandy_v2',
-            format= AudioFormat.PCM_48000HZ_MONO_16BIT
         )
         self.caption = []
         self.pointer = 0
@@ -36,18 +32,20 @@ class ChatBot:
         """开始监听系统音频输出"""
         self.translator.start()
         self.stream.openStream()
+        # stdout(self.stream.getInfo().strip())
+        stdout_cmd('status', 'listening')
 
     def add_caption(self, caption):
         """处理新识别的音频输出项"""
-        if not caption['time_s']: return
+        if 'index' not in caption: return
         stdout_obj(caption)
         if len(self.caption) == 0:
             self.caption.append(caption)
             return
-        if self.caption[-1]['time_s'] == caption['time_s']:
-            self.caption.pop()
+        if self.caption[-1]['end']:
             self.caption.append(caption)
         else:
+            self.caption.pop()
             self.caption.append(caption)
 
     def stop_listening(self):
@@ -57,6 +55,7 @@ class ChatBot:
 
     def generate_answer(self) -> str:
         """调用 LLM 生成文本回答"""
+        stdout_cmd('status', 'answering')
         while self.pointer < len(self.caption):
             self.messages.append(Message(
                 role='user',
@@ -76,16 +75,25 @@ class ChatBot:
 
     def synthesis(self, text) -> bytes | None:
         """语音合成"""
-        audio = self.synthesizer.call(text)
+        stdout_cmd('status', 'synthesising')
+        synthesizer = SpeechSynthesizer(
+            model='cosyvoice-v2',
+            voice='loongandy_v2',
+            format= AudioFormat.PCM_48000HZ_MONO_16BIT
+        )
+        audio = synthesizer.call(text)
         self.status = 'synthesis'
+        stdout_cmd('status', 'sythesized')
         return audio
 
     def output(self, audio: bytes | None):
         """将音频数据输出到麦克风"""
+        stdout_cmd('status', 'outputting')
         if audio:
-            # audio_output(audio)
-            audio_inject(audio)
+            audio_output(audio)
+            # audio_inject(audio)
         self.status = 'ready'
+        stdout_cmd('status', 'ready')
 
 
 chat_bot = ChatBot()
