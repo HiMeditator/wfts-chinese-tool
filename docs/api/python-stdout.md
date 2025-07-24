@@ -40,7 +40,6 @@ Python 进程标准输出 (`sys.stdout`) 的内容一定为一行一行的字符
 ```js
 {
   command: "caption",
-  index: number,
   time_s: string,
   time_t: string,
   text: string,

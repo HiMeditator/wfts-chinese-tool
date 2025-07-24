@@ -6,16 +6,16 @@ export function commHandler() {
     chatProcess.start()
   })
 
-  ipcMain.on('server.send', (_, data) => {
-    chatProcess.sendCommand('send', data)
+  ipcMain.on('server.prompt', (_, data) => {
+    chatProcess.sendCommand('prompt', data)
   })
 
   ipcMain.on('server.listen', () => {
     chatProcess.sendCommand('listen')
   })
 
-  ipcMain.on('server.convert', () => {
-    chatProcess.sendCommand('convert')
+  ipcMain.on('server.answer', () => {
+    chatProcess.sendCommand('answer')
   })
 
   ipcMain.on('server.stop', () => {

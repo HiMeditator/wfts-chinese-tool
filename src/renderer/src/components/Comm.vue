@@ -4,10 +4,9 @@
   <textarea v-model="text"></textarea>
   <br>
   <button @click="start">Start</button>
-  <button @click="send">Send</button>
+  <button @click="prompt">Prompt</button>
   <button @click="listen">Listen</button>
-  <button @click="convert">Convert</button>
-  <button @click="send">Send</button>
+  <button @click="answer">Answer</button>
   <button @click="stop">Stop</button>
 </div>
 </template>
@@ -21,16 +20,16 @@ function start() {
   window.electron.ipcRenderer.send('server.start')
 }
 
-function send() {
-  window.electron.ipcRenderer.send('server.send', text.value)
+function prompt() {
+  window.electron.ipcRenderer.send('server.prompt', text.value)
 }
 
 function listen() {
   window.electron.ipcRenderer.send('server.listen')
 }
 
-function convert() {
-  window.electron.ipcRenderer.send('server.convert')
+function answer() {
+  window.electron.ipcRenderer.send('server.answer')
 }
 
 function stop() {

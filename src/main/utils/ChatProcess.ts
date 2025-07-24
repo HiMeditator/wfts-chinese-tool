@@ -5,19 +5,12 @@ import net from 'net';
 import { spawn } from 'child_process'
 import { Log } from './Log'
 
-const commandList =[
-  "stop",
-  "send",
-  "listen",
-  "convert",
-]
-
 function handleMessage(msg: any) {
   if(msg.command === 'print') {
-    Log.info('Python server output:', msg.content)
+    Log.info('Python server output:\n', msg.content)
   }
   else if(msg.command === 'caption') {
-    console.log(msg.text)
+    console.log('Stella:', msg.text)
   }
 }
 
@@ -50,10 +43,6 @@ class ChatProcess {
       Log.warn('No client')
       return
     }
-    if(!commandList.includes(command)){
-      Log.error('Invalid command')
-      return
-    }
     const data = JSON.stringify({command, content})
     this.client.write(data);
     Log.info(`Send data to python server: ${data}`);
@@ -77,18 +66,21 @@ class ChatProcess {
     Log.info('Chat process started, PID:', this.process.pid)
 
     this.process.stdout.on('data', (data: any) => {
-      data = data.toString().trim()
-      try{
-        const msg = JSON.parse(data)
-        if(msg.command === 'ready') {
-          Log.info('Python server ready')
-          this.connect()
+      const lines = data.toString().split('\n');
+      lines.forEach((line: string) => {
+        if(!line.trim()) return
+        try{
+          const msg = JSON.parse(line)
+          if(msg.command === 'ready') {
+            Log.info('Python server ready')
+            this.connect()
+          }
+          else { handleMessage(msg) }
         }
-        else { handleMessage(msg) }
-      }
-      catch(e){
-        Log.error('Error parsing JSON:', data.toString())
-      }
+        catch(e){
+          Log.error('Error parsing JSON:', `\`${line}\``)
+        }
+      })
     });
 
     this.process.stderr.on('data', (data: any) => {

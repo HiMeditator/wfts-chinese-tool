@@ -128,12 +128,15 @@ class AudioStream:
         except Exception:
             return None
         if self.stop_signal:
-            self.closeStream()
+            self._close()
 
     def closeStream(self):
         """
         关闭系统音频输出流
         """
+        self.stop_signal = True
+
+    def _close(self):
         if self.stream is None: return
         self.stream.stop_stream()
         self.stream.close()
