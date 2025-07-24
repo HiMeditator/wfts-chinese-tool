@@ -1,7 +1,7 @@
 from sysaudio import AudioStream
-from sysaudio import audio_output
+from sysaudio import audio_output, audio_inject
 from utils import GummyTranslator
-from utils.sysout import stdout_obj, stdout
+from utils.sysout import stdout_obj
 
 import dashscope
 from dashscope.api_entities.dashscope_response import Message
@@ -10,7 +10,7 @@ from dashscope.audio.tts_v2 import SpeechSynthesizer, AudioFormat
 class ChatBot:
     def __init__(self):
         self.status = "ready"
-        self.stream = AudioStream(1)
+        self.stream = AudioStream(0)
         self.translator = GummyTranslator(
             self.add_caption,
             self.stream.RATE,
@@ -83,7 +83,8 @@ class ChatBot:
     def output(self, audio: bytes | None):
         """将音频数据输出到麦克风"""
         if audio:
-            audio_output(audio)
+            # audio_output(audio)
+            audio_inject(audio)
         self.status = 'ready'
 
 
