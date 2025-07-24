@@ -2,21 +2,32 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../build/icon.png?asset'
+import { windowHandler } from './handler/windowHandler'
 import { commHandler } from './handler/commHandler'
+import { Log } from './utils/Log'
+
+let mainWindow: BrowserWindow
 
 function createWindow(): void {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     icon: icon,
     width: 400,
     height: 300,
+    minWidth: 325,
+    minHeight: 360,
     show: false,
     autoHideMenuBar: true,
+    center: true,
+    frame: false,
+    transparent: true,
     alwaysOnTop: true,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
   })
+
+  Log.window = mainWindow
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
@@ -43,6 +54,7 @@ app.whenReady().then(() => {
 
   createWindow()
 
+  windowHandler(mainWindow)
   commHandler()
 
   app.on('activate', function () {

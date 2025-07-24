@@ -1,5 +1,4 @@
 dashscope
 numpy
-PyAudio
 PyAudioWPatch
 pyinstaller

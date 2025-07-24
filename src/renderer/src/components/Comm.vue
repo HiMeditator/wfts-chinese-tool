@@ -1,14 +1,16 @@
 <template>
 <div class="comm">
-  <h2>Communication Test</h2>
-  <textarea v-model="text"></textarea>
-  <br>
-  <button @click="start">Start</button>
-  <button @click="prompt">Prompt</button>
-  <button @click="listen">Listen</button>
-  <button @click="answer">Answer</button>
-  <button @click="output">Output</button>
-  <button @click="stop">Stop</button>
+  <a-textarea
+    class="prompt-input"
+    v-model:value="text"
+    placeholder="输入系统提示词..."
+  />
+  <a-button size="small" type="primary" @click="start">Start</a-button>
+  <a-button size="small" type="primary" @click="prompt">Prompt</a-button>
+  <a-button size="small" type="primary" @click="listen">Listen</a-button>
+  <a-button size="small" type="primary" @click="answer">Answer</a-button>
+  <a-button size="small" type="primary" @click="output">Output</a-button>
+  <a-button size="small" type="primary" @click="stop">Stop</a-button>
 </div>
 </template>
 
@@ -44,9 +46,12 @@ function stop() {
 
 <style scoped>
 .comm {
-  padding: 20px;
+  padding: 12px;
 }
-button {
-  margin-right: 10px;
+
+.prompt-input {
+  display: block;
+  margin-bottom: 10px;
 }
+
 </style>

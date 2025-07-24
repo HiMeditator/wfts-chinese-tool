@@ -1,3 +1,5 @@
+import { BrowserWindow } from 'electron';
+
 function getTimeString() {
   const now = new Date()
   const HH = String(now.getHours()).padStart(2, '0')
@@ -7,13 +9,23 @@ function getTimeString() {
 }
 
 export class Log {
+  static window: BrowserWindow | null = null
+
   static info(...msg: string[]){
-    console.log(`[INFO ${getTimeString()}]`, ...msg)
+    const str = [`[INFO ${getTimeString()}]`, ...msg].join(' ')
+    console.log(str)
+    Log.window?.webContents.send('info.send', str)
   }
+
   static warn(...msg: string[]){
-    console.warn(`[WARN ${getTimeString()}]`, ...msg)
+    const str = [`[WARN ${getTimeString()}]`, ...msg].join(' ')
+    console.log(str)
+    Log.window?.webContents.send('warn.send', str)
   }
+
   static error(...msg: string[]){
-    console.error(`[ERROR ${getTimeString()}]`, ...msg)
+    const str = [`[ERROR ${getTimeString()}]`, ...msg].join(' ')
+    console.log(str)
+    Log.window?.webContents.send('error.send', str)
   }
 }
