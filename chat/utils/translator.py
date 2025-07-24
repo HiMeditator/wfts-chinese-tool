@@ -4,7 +4,6 @@ from dashscope.audio.asr import (
     TranslationResult,
     TranslationRecognizerRealtime
 )
-from dashscope.common.error import InvalidParameter
 import dashscope
 from datetime import datetime
 
@@ -53,15 +52,14 @@ class Callback(TranslationRecognizerCallback):
 
 class GummyTranslator:
     """
-    使用 Gummy 引擎处理音频数据，并在标准输出中输出与 Auto Caption 软件可读取的 JSON 字符串数据
+    使用 Gummy 引擎处理英文音频流数据，并得到对应的文本对象
 
     初始化参数：
-        add_func: 添加字幕项的回调方法
+        add_func: 文本对象的处理回调方法
         rate: 音频采样率
-        source: 源语言代码字符串（zh, en, ja 等）
-        target: 目标语言代码字符串（zh, en, ja 等，None 表示不翻译）
+        target: 翻译目标语言（zh, en, ja 等，None 表示不翻译）
     """
-    def __init__(self, add_func, rate: int, target: str, api_key: str):
+    def __init__(self, add_func, rate: int, target: str | None, api_key: str):
         if api_key:
             dashscope.api_key = api_key
         self.running = False
@@ -81,7 +79,7 @@ class GummyTranslator:
         self.translator.start()
         self.running = True
 
-    def send_audio_frame(self, data):
+    def send_audio_frame(self, data: bytes):
         """发送音频帧"""
         if not self.running: return
         self.translator.send_audio_frame(data)

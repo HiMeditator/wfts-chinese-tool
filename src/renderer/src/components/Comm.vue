@@ -7,6 +7,7 @@
   <button @click="prompt">Prompt</button>
   <button @click="listen">Listen</button>
   <button @click="answer">Answer</button>
+  <button @click="output">Output</button>
   <button @click="stop">Stop</button>
 </div>
 </template>
@@ -30,6 +31,10 @@ function listen() {
 
 function answer() {
   window.electron.ipcRenderer.send('server.answer')
+}
+
+function output() {
+  window.electron.ipcRenderer.send('server.output')
 }
 
 function stop() {

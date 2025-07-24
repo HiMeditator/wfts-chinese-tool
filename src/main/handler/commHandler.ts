@@ -18,6 +18,10 @@ export function commHandler() {
     chatProcess.sendCommand('answer')
   })
 
+  ipcMain.on('server.output', () => {
+    chatProcess.sendCommand('output')
+  })
+
   ipcMain.on('server.stop', () => {
     chatProcess.stop()
   })
