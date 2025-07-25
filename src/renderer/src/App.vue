@@ -16,7 +16,7 @@ import AllLogs from './components/AllLogs.vue';
 .window {
   width: 100%;
   height: 100vh;
-  background-color: rgba(227, 232, 241, 0.75);
+  background-color: rgba(227, 232, 248, 0.8);
   display: flex;
   flex-direction: column;
 }

@@ -76,10 +76,6 @@ function send(cmd: string){
   justify-content: center;
 }
 
-.status-tag {
-  padding: 3px;
-}
-
 button {
   margin-right: 10px;
   min-width: 60px;

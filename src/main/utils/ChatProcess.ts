@@ -18,11 +18,16 @@ function handleMessage(msg: any) {
     Log.info('Python status:', msg.content)
   }
   else if(msg.command === 'caption') {
-    console.log('Stella:', msg.text)
-    if(msg.end) { console.log('Translation:', msg.translation) }
+    if(msg.end){
+      Log.info('Stella:', msg.text)
+      Log.info('Translation:', msg.translation)
+    }
+    else {
+      console.log('Stella:', msg.text)
+    }
   }
   else if(msg.command === 'answer') {
-    console.log('Answer:', msg.content)
+    Log.info('You:', msg.content)
   }
 }
 

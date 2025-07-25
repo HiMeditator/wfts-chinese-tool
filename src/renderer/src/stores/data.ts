@@ -5,17 +5,7 @@ import { Status, ConsoleLog, Message } from '@renderer/types'
 export const useDataStore = defineStore('data', () => {
   const status = ref<Status>('stopped')
   const messages = ref<Message[]>([])
-  const logs = ref<ConsoleLog[]>([
-    {type: 'info', content: '[INFO 00:59:26] Python Server Status: listening'},
-    {type: 'warn', content: '[WARN 00:59:26] Python Server Status: disconnected'},
-    {type: 'error', content: '[ERROR 00:59:34] Python server error:\nGummy engine is not running'},
-    {type: 'info', content: '[INFO 00:59:26] Python Server Status: listening'},
-    {type: 'warn', content: '[WARN 00:59:26] Python Server Status: disconnected'},
-    {type: 'error', content: '[ERROR 00:59:34] Python server error:\nGummy engine is not running'},
-    {type: 'info', content: '[INFO 00:59:26] Python Server Status: listening'},
-    {type: 'warn', content: '[WARN 00:59:26] Python Server Status: disconnected'},
-    {type: 'error', content: '[ERROR 00:59:34] Python server error:\nGummy engine is not running'},
-  ])
+  const logs = ref<ConsoleLog[]>([])
 
   const command = computed(() => {
     switch(status.value){
@@ -41,6 +31,7 @@ export const useDataStore = defineStore('data', () => {
   })
 
   window.electron.ipcRenderer.on('message.send', (_, msg: any) => {
+    console.log(msg)
     if(msg.command === 'ready') status.value = 'connected'
     else if(msg.command === 'status') status.value = msg.content
     else if(msg.command === 'caption') {

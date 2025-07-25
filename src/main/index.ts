@@ -12,9 +12,9 @@ function createWindow(): void {
   mainWindow = new BrowserWindow({
     icon: icon,
     width: 360,
-    height: 300,
+    height: 460,
     minWidth: 325,
-    minHeight: 360,
+    minHeight: 420,
     show: false,
     autoHideMenuBar: true,
     center: true,
