@@ -40,7 +40,7 @@ Python 进程标准输出 (`sys.stdout`) 的内容一定为一行一行的字符
 
 ```js
 {
-  command: "print",
+  command: "status",
   content: "ready" | "listening" | "answering" | "synthesising" | "sythesized" | "outputting"
 }
 ```

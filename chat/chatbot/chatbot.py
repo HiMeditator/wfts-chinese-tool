@@ -42,11 +42,9 @@ class ChatBot:
         if len(self.caption) == 0:
             self.caption.append(caption)
             return
-        if self.caption[-1]['end']:
-            self.caption.append(caption)
-        else:
+        if not self.caption[-1]['end']:
             self.caption.pop()
-            self.caption.append(caption)
+        self.caption.append(caption)
 
     def stop_listening(self):
         """停止监听系统音频输出"""

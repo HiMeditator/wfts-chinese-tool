@@ -11,7 +11,7 @@ let mainWindow: BrowserWindow
 function createWindow(): void {
   mainWindow = new BrowserWindow({
     icon: icon,
-    width: 400,
+    width: 360,
     height: 300,
     minWidth: 325,
     minHeight: 360,

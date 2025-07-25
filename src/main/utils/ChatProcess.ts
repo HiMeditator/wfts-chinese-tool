@@ -6,15 +6,16 @@ import { spawn } from 'child_process'
 import { Log } from './Log'
 
 function handleMessage(msg: any) {
+  Log.sendMessage(msg)
   if(msg.command === 'ready') {
     Log.info('Python server ready')
     chatProcess.connect()
   }
   else if(msg.command === 'print') {
-    Log.info('Python Server Output:', msg.content)
+    Log.info('Python output:', msg.content)
   }
   else if(msg.command === 'status') {
-    Log.info('Python Server Status:', msg.content)
+    Log.info('Python status:', msg.content)
   }
   else if(msg.command === 'caption') {
     console.log('Stella:', msg.text)
@@ -95,6 +96,7 @@ class ChatProcess {
     });
 
     this.process.on('close', (code: any) => {
+      handleMessage({command: 'status', content: 'stopped'})
       Log.info(`Python server exited with code ${code}`)
       this.process = undefined
       this.status = 'stopped'
