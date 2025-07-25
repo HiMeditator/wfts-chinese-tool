@@ -1,5 +1,5 @@
 from sysaudio import AudioStream
-from sysaudio import audio_output, audio_inject
+from sysaudio import play_both
 from utils import GummyTranslator
 from utils.sysout import stdout_obj, stdout_cmd, stdout
 
@@ -11,7 +11,8 @@ from dashscope.audio.tts_v2 import SpeechSynthesizer, AudioFormat
 class ChatBot:
     def __init__(self):
         self.status = "ready"
-        self.stream = AudioStream(1)
+        self.stream = AudioStream(0)
+        # self.stream = AudioStream(1)
         self.translator = GummyTranslator(
             self.add_caption,
             self.stream.RATE,
@@ -54,12 +55,14 @@ class ChatBot:
     def generate_answer(self) -> str:
         """调用 LLM 生成文本回答"""
         stdout_cmd('status', 'answering')
+        user_content = 'Stella: '
         while self.pointer < len(self.caption):
-            self.messages.append(Message(
-                role='user',
-                content='Stella: ' + self.caption[self.pointer]['text']
-            ))
+            user_content += self.caption[self.pointer]['text'] + ' '
             self.pointer += 1
+        self.messages.append(Message(
+            role='user',
+            content=user_content
+        ))
         response = dashscope.Generation.call(
             model='qwen-max',
             messages=self.messages
@@ -67,7 +70,7 @@ class ChatBot:
         answer: str = response.output.text # type: ignore
         self.messages.append(Message(
             role='assistant',
-            content='You: ' + answer
+            content=answer
         ))
         return answer
 
@@ -88,10 +91,11 @@ class ChatBot:
         """将音频数据输出到麦克风"""
         stdout_cmd('status', 'outputting')
         if audio:
-            audio_output(audio)
-            # audio_inject(audio)
-        self.status = 'ready'
-        stdout_cmd('status', 'ready')
+            play_both(audio)
+
+        self.translator.start()
+        self.status = 'listen'
+        stdout_cmd('status', 'listening')
 
 
 chat_bot = ChatBot()

@@ -14,6 +14,8 @@ def handle_client(client_socket):
             data = json.loads(data)
 
             if data['command'] == 'stop':
+                if chat_bot.status == 'listen':
+                    chat_bot.stop_listening()
                 chat_bot.status = 'stop'
             elif data['command'] == 'prompt':
                 chat_bot.add_system_prompt(data['content'])

@@ -1,9 +1,12 @@
+import json
+import time
+import threading
 import pyaudiowpatch as pyaudio
 from utils import stdout, stderr
-import json
+
 
 def audio_output(audio: bytes) -> None:
-    """向输出设备播放音频"""
+    """向默认输出设备播放音频"""
     stdout("Audio playing...")
     p = pyaudio.PyAudio()
     stream = p.open(
@@ -17,8 +20,9 @@ def audio_output(audio: bytes) -> None:
     p.terminate()
     stdout("Audio played.")
 
+
 def audio_inject(audio: bytes) -> None:
-    """将音频数据注入到麦克风输入流中"""
+    """将音频数据注入到 VB Cable 麦克风输入流中"""
     stdout("Audio injecting...")
     p = pyaudio.PyAudio()
     num = p.get_device_count()
@@ -44,3 +48,12 @@ def audio_inject(audio: bytes) -> None:
     stream.write(audio)
     stdout("Audio injected.")
 
+
+def play_both(audio: bytes) -> None:
+    """同时播放和注入音频"""
+    t1 = threading.Thread(target=audio_output, args=(audio,))
+    t2 = threading.Thread(target=audio_inject, args=(audio,))
+    t1.start()
+    t2.start()
+    while t1.is_alive() or t2.is_alive():
+        time.sleep(0.1)

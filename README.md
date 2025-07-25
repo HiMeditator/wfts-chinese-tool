@@ -1,34 +1,60 @@
-# wfts-ai-chat
+<div align="center" >
+    <img src="./build/icon.png" width="100px" height="100px"/>
+    <h1 align="center">wfts-ai-chat</h1>
+    <p>wfts-ai-chat 是一个尝试使用云端模型来游玩 AI 游戏《Whispers from the Stars》的项目。</p>
+    <p>
+        | <b>简体中文</b>
+        | <a href="./README_en.md">English</a> |
+    </p>
+    <p><i>项目已经初步开发完成，发行版将在之后推出...</i></p>
+</div>
 
-An Electron application with Vue and TypeScript
+![](./assets/main.png)
 
-## Recommended IDE Setup
+## 📖 基本使用
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+该项目仅支持 Windows 系统。本项目目前没有推出发行版，用户需要克隆仓库并自行搭建开发环境来运行项目。或者等待后续推出的发行版。
 
-## Project Setup
+本项目使用了多个阿里云的云端模型（语音识别模型、大语言模型、语言合成模型）。要使用这些模型首先需要获取阿里云百炼平台的 API KEY，然后将 API KEY 添加到软件设置中或者配置到环境变量中。相关教程：
 
-### Install
+> 国际版的阿里云服务没有全部提供本项目使用的模型，因此目前非中国用户无法直接使用该项目。如果你是开发者，可以考虑修改项目中使用的模型（音频转文字模型、聊天模型、语言合成模型）
+
+- [获取 API KEY](https://help.aliyun.com/zh/model-studio/get-api-key)
+- [将 API Key 配置到环境变量](https://help.aliyun.com/zh/model-studio/configure-api-key-through-environment-variables)
+
+没有 API KEY 该项目将无法运行。
+
+## 🚀 运行环境搭建
+
+克隆仓库：
 
 ```bash
-$ npm install
+# HTTPS
+git clone https://github.com/HiMeditator/wfts-ai-chat.git
+# SSH
+git clone git@github.com:HiMeditator/wfts-ai-chat.git
 ```
 
-### Development
+安装依赖：
 
 ```bash
-$ npm run dev
+npm install
 ```
 
-### Build
+构建 python 运行环境：
 
 ```bash
-# For windows
-$ npm run build:win
-
-# For macOS
-$ npm run build:mac
-
-# For Linux
-$ npm run build:linux
+cd chat
+# in ./chat folder
+python -m venv .venv
+.venv/Scripts/activate
+pip install -r requirements.txt
 ```
+
+运行项目：
+
+```bash
+npm run dev
+```
+
+暂不支持构建项目。
