@@ -24,6 +24,12 @@ This project uses multiple Alibaba Cloud models (speech recognition model, large
 
 The project will not function without an API KEY.
 
+Additionally, before running the project, you need to install the [VB-Cable](https://vb-audio.com/Cable/) virtual audio device software, which is used to inject the synthesized response audio into the game's virtual microphone.
+
+Each time you start the game, open the system's "Volume Mixer" option, first set the game's input device to default, and then change it to CABLE Output after the game has started.
+
+<img src="./assets/mixer.png" style="zoom:40%;" />
+
 ## 🚀 Development Environment Setup
 
 Clone the repository:

@@ -25,7 +25,8 @@
         style="padding: 16px 0 2px;"
       />
       <div v-for="(msg, idx) in messages" :key="idx" :class="[msg.role]">
-        {{ msg.content }}
+        <div>{{ msg.content }}</div>
+        <div class="translation">{{ msg.translation }}</div>
       </div>
     </div>
   </div>
@@ -103,6 +104,14 @@ const current = ref<string[]>(['logs']);
   padding: 10px;
   display: flex;
   flex-direction: column;
+}
+
+.translation {
+  display: none;
+}
+
+.Stella:hover .translation {
+  display: block;
 }
 
 .Stella, .You {

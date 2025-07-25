@@ -55,7 +55,7 @@ class ChatBot:
     def generate_answer(self) -> str:
         """调用 LLM 生成文本回答"""
         stdout_cmd('status', 'answering')
-        user_content = 'Stella: '
+        user_content = ''
         while self.pointer < len(self.caption):
             user_content += self.caption[self.pointer]['text'] + ' '
             self.pointer += 1
