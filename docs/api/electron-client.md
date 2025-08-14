@@ -19,11 +19,6 @@
 
 当 JSON 对象的 `command` 参数为下列值时，表示的对应的含义。
 
-### `prompt`
-
-内容为系统提示词。
-
-设置系统提示词（System Prompt）。
 
 ### `listen`
 
@@ -31,20 +26,26 @@
 
 监听系统音频输出。
 
-### `answer`
+### `record`
 
 内容为空。
 
-让 Python 端基于监听到的音频进行回答，然后将回答的内容转换为音频备用。
+监听用户音频输入。
+
+### `synthesis`
+
+`content: string`
+
+将内容合成为音频。
 
 ### `output`
 
 内容为空。
 
-将 Python 端转换的音频输出到虚拟麦克风设备：CABLE Input (VB-Audio Virtual Cable)。
+将 Python 端转换的音频同时输出到默认音频输出和虚拟麦克风设备：CABLE Input (VB-Audio Virtual Cable)。
 
 ### `stop`
 
 内容为空。
 
-停止 Python 端服务。
+停止 Python 端服务，退出。

@@ -41,21 +41,21 @@ import { MenuProps } from 'ant-design-vue';
 import { Empty } from 'ant-design-vue';
 const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE;
 const items = ref<MenuProps['items']>([
+    {
+    key: 'messages',
+    icon: () => h(MailOutlined),
+    label: '聊天',
+  },
   {
     key: 'logs',
     icon: () => h(AppstoreOutlined),
-    label: 'Logs',
-  },
-  {
-    key: 'messages',
-    icon: () => h(MailOutlined),
-    label: 'Messages',
+    label: '日志',
   }
 ])
 const dataStore = useDataStore()
 const { logs, messages } = storeToRefs(dataStore)
 
-const current = ref<string[]>(['logs']);
+const current = ref<string[]>(['messages']);
 </script>
 
 <style scoped>

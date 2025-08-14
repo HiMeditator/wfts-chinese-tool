@@ -1,7 +1,7 @@
 {
   "name": "wfts-ai-chat",
   "version": "0.0.1",
-  "description": "Playing Whispers from the Stars with AI",
+  "description": "Playing Whispers from the Star with AI",
   "main": "./out/main/index.js",
   "author": "himeditator",
   "homepage": "https://electron-vite.org",

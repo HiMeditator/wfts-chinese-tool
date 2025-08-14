@@ -7,3 +7,5 @@ out
 __pycache__
 subenv
 .venv
+.repomap
+.virtualme

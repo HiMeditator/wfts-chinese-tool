@@ -17,20 +17,14 @@ def handle_client(client_socket):
                 if chat_bot.status == 'listen':
                     chat_bot.stop_listening()
                 chat_bot.status = 'stop'
-            elif data['command'] == 'prompt':
-                chat_bot.add_system_prompt(data['content'])
+            elif data['command'] == 'translate':
+                chat_bot.translate(data['content'])
             elif data['command'] == 'listen':
                 if chat_bot.status != 'ready':
                     stderr(f'Inappropriate Status: Chatbot is not ready, current status: {chat_bot.status}.')
                     continue
                 chat_bot.start_listening()
                 chat_bot.status = 'listen'
-            elif data['command'] == 'answer':
-                if chat_bot.status != 'listen':
-                    stderr(f'Inappropriate Status: Chatbot is not listening, current status: {chat_bot.status}.')
-                    continue
-                chat_bot.stop_listening()
-                chat_bot.status = 'answer'
             elif data['command'] == 'output':
                 if chat_bot.status != 'synthesis':
                     stderr(f'Inappropriate Status: Answer audio not ready, current status: {chat_bot.status}.')

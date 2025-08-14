@@ -1,7 +1,7 @@
 <div align="center">
     <img src="./build/icon.png" width="100px" height="100px"/>
     <h1 align="center">wfts-ai-chat</h1>
-    <p>wfts-ai-chat is a project that attempts to play the AI game "Whispers from the Stars" using cloud models.</p>
+    <p>wfts-ai-chat is a project that attempts to play the AI game "Whispers from the Star" using cloud models.</p>
     <p>
         | <a href="./README.md">简体中文</a>
         | <b>English</b> |

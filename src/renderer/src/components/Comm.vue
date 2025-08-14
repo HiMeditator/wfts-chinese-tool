@@ -11,33 +11,49 @@
         <a-statistic title="Logs" :value="logs.length" :value-style="{fontSize:'16px'}"/>
       </a-col>
     </a-row>
-    <a-textarea
-      class="prompt-input"
-      v-model:value="prompt"
-      placeholder="Input system prompt..."
-    />
+    <a-row>
+      <a-col :span="12">
+        <a-textarea
+          ref="textarea1"
+          class="prompt-input"
+          v-model:value="input"
+          placeholder="输入中文回答"
+          @input="syncHeight"
+          :auto-size="{ minRows: 3, maxRows: 10 }"
+        />
+      </a-col>
+      <a-col :span="12">
+        <a-textarea
+          ref="textarea2"
+          class="prompt-input"
+          v-model:value="translation"
+          placeholder="英文翻译"
+          @input="syncHeight"
+          :auto-size="{ minRows: 3, maxRows: 10 }"
+        />
+      </a-col>
+    </a-row>
     <div class="main-control">
       <template v-if="command === 'Stopped'">
-        <a-button size="small" type="primary" @click="send('start')">Start</a-button>
+        <a-button size="small" type="primary" @click="send('start')">启动</a-button>
       </template>
       <template v-else>
-        <a-button size="small" danger ghost @click="send('stop')">Stop</a-button>
+        <a-button size="small" danger ghost @click="send('stop')">停止</a-button>
       </template>
       <a-button
-        size="small" type="primary" @click="send('prompt')"
+        size="small" type="primary" @click="send('listen')"
         :disabled="status === 'stopped'"
-      >Prompt</a-button>
+      >语音监听</a-button>
       <a-button
         size="small" type="primary" @click="send('')"
-        :loading="command === 'Pending'"
-        :disabled="command === 'Pending' || command === 'Stopped'"
-      >{{ command }}</a-button>
+        :disabled="status === 'stopped'"
+      >语音输入</a-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@renderer/stores/data'
 
@@ -53,27 +69,34 @@ import { useDataStore } from '@renderer/stores/data'
 - 单次回答不要输出过多内容
 */
 
-const defaultPrompt =
-`"Whispers from the Star" is a sci-fi themed interactive game. Set in space, players need to interact in real-time with Stella, a game character stranded on a planet, through text, voice and other forms. The core goal is to help her successfully escape from danger and complete the level.
+const input = ref('')
+const translation = ref('')
 
-As a player, you need to fully assume the identity of Chen, an engineer living on Earth. The response requirements are as follows:
-- Do not add any statements unrelated to the interaction at the beginning of the response (such as identity explanation, thinking process, etc.)
-- Respond to Stella's questions from a professional engineer's perspective
-- Combine common sense of space exploration and engineering thinking to provide her with practical solutions
-- Maintain the timeliness and logic of communication to promote the progress of the plot
-- Ensure the output content is concise and easy to understand
-- Do not output too much content in a single response`
-
-const prompt = ref(defaultPrompt)
+const textarea1 = ref<HTMLTextAreaElement>()
+const textarea2 = ref<HTMLTextAreaElement>()
 
 const dataStore = useDataStore()
 const { status, messages, logs, command } = storeToRefs(dataStore)
 
+function syncHeight() {
+  nextTick(() => {
+    if (textarea1.value && textarea2.value) {
+      const height1 = textarea1.value.scrollHeight
+      const height2 = textarea2.value.scrollHeight
+      const maxHeight = Math.max(height1, height2)
+      
+      if (height1 !== maxHeight) {
+        textarea1.value.style.height = `${maxHeight}px`
+      }
+      if (height2 !== maxHeight) {
+        textarea2.value.style.height = `${maxHeight}px`
+      }
+    }
+  })
+}
+
 function send(cmd: string){
   if(cmd === '') { cmd = command.value.toLowerCase() }
-  if(cmd == 'prompt')
-    window.electron.ipcRenderer.send(`server.${cmd}`, prompt.value)
-  else
     window.electron.ipcRenderer.send(`server.${cmd}`)
 }
 </script>
@@ -90,7 +113,6 @@ function send(cmd: string){
 }
 
 .prompt-input {
-  display: block;
   margin: 10px 0;
 }
 
