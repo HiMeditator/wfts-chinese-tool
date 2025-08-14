@@ -59,7 +59,8 @@ class ChatProcess {
       this.command = [target]
     }
     else {
-      throw new Error('Not implemented')
+      this.appPath = path.join(process.resourcesPath, 'chat', 'main.exe')
+      this.command = []
     }
   }
 

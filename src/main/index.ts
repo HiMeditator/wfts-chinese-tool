@@ -46,7 +46,7 @@ function createWindow(): void {
 }
 
 app.whenReady().then(() => {
-  electronApp.setAppUserModelId('com.himeditator.wfts-ai-chat')
+  electronApp.setAppUserModelId('com.himeditator.wfts-chinese-tool')
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)

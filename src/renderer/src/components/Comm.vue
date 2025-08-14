@@ -19,7 +19,6 @@
           v-model:value="answer_zh"
           :disabled="status === 'recording'"
           placeholder="中文回答"
-          @input="syncHeight"
           :auto-size="{ minRows: 3, maxRows: 5 }"
         />
       </a-col>
@@ -30,7 +29,6 @@
           v-model:value="answer_en"
           :disabled="status === 'recording'"
           placeholder="英文翻译"
-          @input="syncHeight"
           :auto-size="{ minRows: 3, maxRows: 5 }"
         />
       </a-col>
@@ -78,39 +76,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from 'vue'
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@renderer/stores/data'
-
-const textarea1 = ref<HTMLTextAreaElement>()
-const textarea2 = ref<HTMLTextAreaElement>()
 
 const dataStore = useDataStore()
 const {
   status, answer_zh ,answer_en, messages, logs, status_zh
 } = storeToRefs(dataStore)
 
-function syncHeight() {
-  nextTick(() => {
-    if (textarea1.value && textarea2.value) {
-      const height1 = textarea1.value.scrollHeight
-      const height2 = textarea2.value.scrollHeight
-      const maxHeight = Math.max(height1, height2)
-      
-      if (height1 !== maxHeight) {
-        textarea1.value.style.height = `${maxHeight}px`
-      }
-      if (height2 !== maxHeight) {
-        textarea2.value.style.height = `${maxHeight}px`
-      }
-    }
-  })
-}
-
 function send(cmd: string){
   console.log('send', cmd)
   if(cmd === 'synthesis') {
     window.electron.ipcRenderer.send(`server.${cmd}`, answer_en.value)
+    dataStore.addResponse()
   }
   else {
     window.electron.ipcRenderer.send(`server.${cmd}`)

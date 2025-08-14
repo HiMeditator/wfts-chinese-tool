@@ -1,5 +1,5 @@
 {
-  "name": "wfts-ai-chat",
+  "name": "wfts-chinese-tool",
   "version": "0.0.1",
   "description": "Playing Whispers from the Star with AI",
   "main": "./out/main/index.js",
@@ -31,7 +31,7 @@
     "@electron-toolkit/eslint-config-ts": "^3.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@types/node": "^22.16.5",
-    "@vitejs/plugin-vue": "^6.0.0",
+    "@vitejs/plugin-vue": "^6.0.1",
     "electron": "^37.2.3",
     "electron-builder": "^25.1.8",
     "electron-vite": "^4.0.0",

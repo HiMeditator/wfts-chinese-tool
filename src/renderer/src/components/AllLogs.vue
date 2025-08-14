@@ -107,11 +107,9 @@ const current = ref<string[]>(['messages']);
 }
 
 .translation {
-  display: none;
-}
-
-.Stella:hover .translation {
   display: block;
+  border-left: 3px solid #69b1ff;
+  padding-left: 4px;
 }
 
 .Stella, .You {

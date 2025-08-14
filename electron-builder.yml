@@ -1,5 +1,5 @@
-appId: com.himeditator.wfts-ai-chat
-productName: wfts-ai-chat
+appId: com.himeditator.wfts-chinese-tool
+productName: wfts-chinese-tool
 directories:
   buildResources: build
 files:
@@ -9,10 +9,20 @@ files:
   - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+  - '!chat/*'
+  - '!docs/*'
+  - '!assets/*'
+
+extraResources:
+  # For Windows
+  - from: ./chat/dist/main.exe
+    to: ./chat/main.exe
+
 asarUnpack:
   - resources/**
 win:
-  executableName: wfts-ai-chat
+  executableName: wfts-chinese-tool
+  icon: build/icon.png
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

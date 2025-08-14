@@ -30,6 +30,15 @@ export const useDataStore = defineStore('data', () => {
     answer_zh.value = ""
   }
 
+  function addResponse() {
+    messages.value.push({
+      role: "You",
+      content: answer_en.value,
+      translation: answer_zh.value,
+      end: true
+    })
+  }
+
   window.electron.ipcRenderer.on('info.send', (_, msg: string) => {
     logs.value.push({type: 'info', content: msg})
   })
@@ -77,5 +86,6 @@ export const useDataStore = defineStore('data', () => {
     answer_zh,
     messages,
     logs,
+    addResponse,
   }
 })

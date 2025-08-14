@@ -5,7 +5,7 @@ out
 .eslintcache
 *.log*
 __pycache__
-subenv
 .venv
+chat/build
 .repomap
 .virtualme

@@ -12,7 +12,7 @@ class ChatBot:
         self.text = ""
         self.audio = bytes()
         self.stream0 = AudioStream(0)
-        self.stream1 = AudioStream(0)
+        self.stream1 = AudioStream(1)
         self.translator0 = GummyTranslator(
             stdout_obj,
             self.stream0.RATE,
