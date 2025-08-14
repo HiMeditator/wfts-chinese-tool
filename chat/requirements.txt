@@ -1,4 +1,3 @@
-ollama
 dashscope
 numpy
 PyAudioWPatch

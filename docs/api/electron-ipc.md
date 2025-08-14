@@ -12,23 +12,35 @@
 
 **数据类型：** 无数据
 
-### `server.send`
-
-**介绍：** 向 Python 后端服务发送数据
-
-**数据类型：** `string`
-
 ### `server.listen`
 
 **介绍：** 让 Python 后端服务监听系统音频输出
 
+**数据类型：** 无数据
+
+### `server.record`
+
+**介绍：** 让 Python 后端服务监听麦克风输入
+
+**数据类型：** 无数据
+
+### `server.break`
+
+**介绍：** 让 Python 后端服务停止音频监听
+
+**数据类型：** 无数据
+
+### `server.synthesis`
+
+**介绍：** 让 Python 后端服务将文本合成为音频
+
 **数据类型：** `string`
 
-### `server.convert`
+### `server.play`
 
-**介绍：** 将 Python 后端服务监听的音频转换成文本
+**介绍：** 让 Python 后端服务播放和注入合成的音频
 
-**数据类型：** `string`
+**数据类型：** 无数据
 
 ### `server.stop`
 

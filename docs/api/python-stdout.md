@@ -66,7 +66,9 @@ Python 进程标准输出 (`sys.stdout`) 的内容一定为一行一行的字符
 ```js
 {
   command: "record",
-  content: string,
+  index: number,
+  end: boolean,
+  text: string,
   translation: string
 }
 ```

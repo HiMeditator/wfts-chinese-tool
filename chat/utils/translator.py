@@ -51,9 +51,10 @@ class GummyTranslator:
     初始化参数：
         add_func: 文本对象的处理回调方法
         rate: 音频采样率
+        source: 音频源语言（zh, en, ja 等）
         target: 翻译目标语言（zh, en, ja 等，None 表示不翻译）
     """
-    def __init__(self, add_func, rate: int, target: str | None, api_key: str):
+    def __init__(self, add_func, rate: int, source: str, target: str | None, api_key: str):
         if api_key:
             dashscope.api_key = api_key
         self.running = False
@@ -63,7 +64,7 @@ class GummyTranslator:
             sample_rate = rate,
             transcription_enabled = True,
             translation_enabled = (target is not None),
-            source_language = "en",
+            source_language = source,
             translation_target_languages = [target],
             callback = Callback(add_func)
         )
@@ -76,7 +77,6 @@ class GummyTranslator:
     def send_audio_frame(self, data: bytes):
         """发送音频帧"""
         if not self.running:
-            stderr("Gummy engine is not running")
             return
         try:
             self.translator.send_audio_frame(data)

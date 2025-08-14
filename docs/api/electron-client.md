@@ -32,6 +32,12 @@
 
 监听用户音频输入。
 
+### `break`
+
+内容为空。
+
+停止音频监听。
+
 ### `synthesis`
 
 `content: string`

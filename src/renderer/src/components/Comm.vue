@@ -1,14 +1,14 @@
 <template>
   <div class="comm">
     <a-row>
-      <a-col :span="10">
-        <a-statistic title="Status" :value="status" :value-style="{fontSize:'16px'}"/>
+      <a-col :span="8">
+        <a-statistic title="状态" :value="status_zh" :value-style="{fontSize:'16px'}"/>
       </a-col>
-      <a-col :span="7">
-        <a-statistic title="Messages" :value="messages.length" :value-style="{fontSize:'16px'}"/>
+      <a-col :span="8">
+        <a-statistic title="消息数" :value="messages.length" :value-style="{fontSize:'16px'}"/>
       </a-col>
-      <a-col :span="7">
-        <a-statistic title="Logs" :value="logs.length" :value-style="{fontSize:'16px'}"/>
+      <a-col :span="8">
+        <a-statistic title="日志数" :value="logs.length" :value-style="{fontSize:'16px'}"/>
       </a-col>
     </a-row>
     <a-row>
@@ -16,38 +16,63 @@
         <a-textarea
           ref="textarea1"
           class="prompt-input"
-          v-model:value="input"
-          placeholder="输入中文回答"
+          v-model:value="answer_zh"
+          :disabled="status === 'recording'"
+          placeholder="中文回答"
           @input="syncHeight"
-          :auto-size="{ minRows: 3, maxRows: 10 }"
+          :auto-size="{ minRows: 3, maxRows: 5 }"
         />
       </a-col>
       <a-col :span="12">
         <a-textarea
           ref="textarea2"
           class="prompt-input"
-          v-model:value="translation"
+          v-model:value="answer_en"
+          :disabled="status === 'recording'"
           placeholder="英文翻译"
           @input="syncHeight"
-          :auto-size="{ minRows: 3, maxRows: 10 }"
+          :auto-size="{ minRows: 3, maxRows: 5 }"
         />
       </a-col>
     </a-row>
     <div class="main-control">
-      <template v-if="command === 'Stopped'">
+      <template v-if="status === 'stopped'">
         <a-button size="small" type="primary" @click="send('start')">启动</a-button>
       </template>
       <template v-else>
-        <a-button size="small" danger ghost @click="send('stop')">停止</a-button>
+        <a-button size="small" danger ghost
+          @click="send('stop')"
+          :disabled="status === 'connecting'"
+        >停止</a-button>
       </template>
-      <a-button
+
+      <a-button v-if="status === 'listening'"
+        size="small" danger ghost @click="send('break')"
+      >停止监听</a-button>
+      <a-button v-else
         size="small" type="primary" @click="send('listen')"
-        :disabled="status === 'stopped'"
+        :disabled="status !== 'ready'"
       >语音监听</a-button>
-      <a-button
-        size="small" type="primary" @click="send('')"
-        :disabled="status === 'stopped'"
+
+      <a-button v-if="status === 'recording'"
+        size="small" danger ghost @click="send('break')"
+      >停止输入</a-button>
+      <a-button v-else
+        size="small" type="primary" @click="send('record')"
+        :disabled="status !== 'ready'"
       >语音输入</a-button>
+    </div>
+    <div class="main-control">
+      <a-button
+        size="small" type="primary" @click="send('synthesis')"
+        :disabled="status !== 'ready'"
+        :loading="status === 'synthesising'"
+      >回答音频合成</a-button>
+      <a-button
+        size="small" type="primary" @click="send('output')"
+        :disabled="status !== 'ready'"
+        :loading="status === 'outputting'"
+      >回答音频输出</a-button>
     </div>
   </div>
 </template>
@@ -57,26 +82,13 @@ import { ref, nextTick } from 'vue'
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@renderer/stores/data'
 
-/*
-《Whispers from the Star》是一款科幻主题互动游戏。背景设定在太空，玩家需要通过文本、语音等形式与受困星球的游戏角色 Stella 实时互动，核心目标是协助她成功撤离险境，完成通关。
-
-作为玩家，你需全程代入居住在地球上的工程师 Chen 的身份，回答要求如下：
-- 不要在回答开头添加任何与互动无关的表述（如身份说明、思考过程等）
-- 基于工程师的专业视角回应 Stella 的提问
-- 结合太空探索常识与工程思维，为她提供切实可行的解决方案
-- 保持沟通的及时性与逻辑性，推动剧情进展
-- 输出内容保证简洁易懂
-- 单次回答不要输出过多内容
-*/
-
-const input = ref('')
-const translation = ref('')
-
 const textarea1 = ref<HTMLTextAreaElement>()
 const textarea2 = ref<HTMLTextAreaElement>()
 
 const dataStore = useDataStore()
-const { status, messages, logs, command } = storeToRefs(dataStore)
+const {
+  status, answer_zh ,answer_en, messages, logs, status_zh
+} = storeToRefs(dataStore)
 
 function syncHeight() {
   nextTick(() => {
@@ -96,8 +108,13 @@ function syncHeight() {
 }
 
 function send(cmd: string){
-  if(cmd === '') { cmd = command.value.toLowerCase() }
+  console.log('send', cmd)
+  if(cmd === 'synthesis') {
+    window.electron.ipcRenderer.send(`server.${cmd}`, answer_en.value)
+  }
+  else {
     window.electron.ipcRenderer.send(`server.${cmd}`)
+  }
 }
 </script>
 
@@ -114,6 +131,7 @@ function send(cmd: string){
 
 .prompt-input {
   margin: 10px 0;
+  scrollbar-width: none;
 }
 
 .main-control {

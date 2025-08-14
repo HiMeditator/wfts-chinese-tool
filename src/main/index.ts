@@ -12,7 +12,7 @@ function createWindow(): void {
   mainWindow = new BrowserWindow({
     icon: icon,
     width: 360,
-    height: 460,
+    height: 540,
     minWidth: 325,
     minHeight: 420,
     show: false,

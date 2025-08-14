@@ -2,7 +2,7 @@
   <div class="title-bar">
     <div class="drag-area">
       <img src="../assets/icon.svg" class="logo" >
-      <span class="title">Whispers from the Star AI Chat</span>
+      <span class="title">Whispers from the Star 中文工具</span>
     </div>
     <div class="option-item" @click="pin">
       <PushpinFilled v-if="pinned" />

@@ -1,5 +1,6 @@
-export type Status = 'stopped' | 'connected' | 'ready' | 'listening' |
-  'answering' | 'synthesising' | 'sythesized' | 'outputting'
+export type Status =
+  'stopped' | 'connecting' | 'ready' |
+  'listening' | 'recording' | 'synthesising' | 'outputting'
 
 export interface ConsoleLog {
   type: 'info' | 'warn' | 'error'

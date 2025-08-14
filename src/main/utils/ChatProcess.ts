@@ -19,15 +19,23 @@ function handleMessage(msg: any) {
   }
   else if(msg.command === 'caption') {
     if(msg.end){
-      Log.info('Stella:', msg.text)
+      Log.info('Listen:', msg.text)
       Log.info('Translation:', msg.translation)
     }
     else {
-      console.log('Stella:', msg.text)
+      console.log('Listen:', msg.text)
+      console.log('Translation:', msg.translation)
     }
   }
-  else if(msg.command === 'answer') {
-    Log.info('You:', msg.content)
+  else if(msg.command === 'record') {
+    if(msg.end){
+      Log.info('Record:', msg.text)
+      Log.info('Translation:', msg.translation)
+    }
+    else {
+      console.log('Record:', msg.text)
+      console.log('Translation:', msg.translation)
+    }
   }
 }
 
@@ -44,15 +52,15 @@ class ChatProcess {
         app.getAppPath(),
         'chat', '.venv', 'Scripts', 'python.exe'
       )
+      const target = path.join(
+        app.getAppPath(),
+        'chat', 'main.py'
+      )
+      this.command = [target]
     }
     else {
       throw new Error('Not implemented')
     }
-    const target = path.join(
-      app.getAppPath(),
-      'chat', 'main.py'
-    )
-    this.command = [target]
   }
 
   public sendCommand(command: string, content: string = "") {
@@ -69,6 +77,7 @@ class ChatProcess {
     Log.info('Connecting to python server...');
     this.client = net.createConnection({ port: 8000 }, () => {
       Log.info('Connected to python server');
+      handleMessage({ command: 'status', content: 'ready' })
     });
   }
 
@@ -97,7 +106,7 @@ class ChatProcess {
     });
 
     this.process.stderr.on('data', (data: any) => {
-      Log.error(`Python server error:\n${data.toString().trim()}`)
+      Log.error(`${data.toString().trim()}`)
     });
 
     this.process.on('close', (code: any) => {
@@ -112,7 +121,6 @@ class ChatProcess {
     if(this.status !== 'running') return
     Log.info('Stopping python server...')
     this.sendCommand('stop')
-    Log.info('Disconnecting from python server...')
     if(this.client){
       this.client.destroy()
       this.client = undefined

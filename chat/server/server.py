@@ -16,20 +16,38 @@ def handle_client(client_socket):
             if data['command'] == 'stop':
                 if chat_bot.status == 'listen':
                     chat_bot.stop_listening()
+                if chat_bot.status == 'record':
+                    chat_bot.stop_recording()
                 chat_bot.status = 'stop'
-            elif data['command'] == 'translate':
-                chat_bot.translate(data['content'])
+
+            elif data['command'] == 'break':
+                if chat_bot.status == 'listen':
+                    chat_bot.stop_listening()
+                if chat_bot.status == 'record':
+                    chat_bot.stop_recording()
+
             elif data['command'] == 'listen':
                 if chat_bot.status != 'ready':
                     stderr(f'Inappropriate Status: Chatbot is not ready, current status: {chat_bot.status}.')
                     continue
                 chat_bot.start_listening()
                 chat_bot.status = 'listen'
-            elif data['command'] == 'output':
-                if chat_bot.status != 'synthesis':
-                    stderr(f'Inappropriate Status: Answer audio not ready, current status: {chat_bot.status}.')
+
+            elif data['command'] == 'record':
+                if chat_bot.status != 'ready':
+                    stderr(f'Inappropriate Status: Chatbot is not ready, current status: {chat_bot.status}.')
                     continue
-                chat_bot.status = 'output'
+                chat_bot.start_recording()
+                chat_bot.status = 'record'
+
+            elif data['command'] == 'synthesis':
+                chat_bot.text = data['content']
+                stdout_cmd('print', data['content'])
+                chat_bot.synthesis()
+
+            elif data['command'] == 'output':
+                chat_bot.output()
+
             else:
                 stderr('Command Error: Client command not found.')
 
