@@ -12,6 +12,8 @@ files:
   - '!chat/*'
   - '!docs/*'
   - '!assets/*'
+  - '!.repomap/*'
+  - '!.virtualme/*'
 
 extraResources:
   # For Windows
