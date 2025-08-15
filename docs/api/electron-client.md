@@ -38,6 +38,12 @@
 
 停止音频监听。
 
+### `translate`
+
+`content: string` 为前端发送对象的 JSON 字符串
+
+将内容使用对应的模型进行中文翻译。
+
 ### `synthesis`
 
 `content: string`

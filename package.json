@@ -1,6 +1,6 @@
 {
   "name": "wfts-chinese-tool",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Playing Whispers from the Star with AI",
   "main": "./out/main/index.js",
   "author": "himeditator",

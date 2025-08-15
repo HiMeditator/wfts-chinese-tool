@@ -2,24 +2,47 @@
     <img src="./build/icon.png" width="100px" height="100px"/>
     <h1 align="center">wfts-chinese-tool</h1>
     <p>wfts-chinese-tool 为中文玩家准备的一个工具软件。用户可以通过该软件获取对话的中文翻译，用户还可以将中文语音转换为英语并输入到游戏中。</p>
+    <p>
+      <a href="https://github.com/HiMeditator/wfts-chinese-tool/releases"><img src="https://img.shields.io/badge/release-0.1.0-blue"></a>
+      <a href="https://github.com/HiMeditator/wfts-chinese-tool/issues"><img src="https://img.shields.io/github/issues/HiMeditator/wfts-chinese-tool?color=orange"></a>
+      <img src="https://img.shields.io/github/languages/top/HiMeditator/wfts-chinese-tool?color=royalblue">
+      <img src="https://img.shields.io/github/repo-size/HiMeditator/wfts-chinese-tool?color=green">
+    </p>
 </div>
 
 ![](./assets/main.png)
 
 ## ✨ 软件特性
 
-获取对话和翻译：软件能捕获系统音频输出，并调用云端语音识别模型生成音频对应文字内容和中文翻译。
+- 获取对话和翻译
+- 中文输入英语翻译
+- 英语音频合成
+- 合成音频播放与注入
 
+## 📥 软件下载
 
-英语音频合成：用户可以在该软件中通过中文进行语音输入，软件调用云端模型翻译为英语，并合成英语内容的音频。
-
-英语音频输出：软件可以将合成的音频输出到虚拟音频设备中，游戏可以根据虚拟设备获取该音频。
-
-## 软件下载
+> [更新日志](./docs/CHANGELOG.md)
 
 [GitHub Releases](https://github.com/HiMeditator/wfts-chinese-tool/releases)
 
+## ⚙️ 软件功能
+
+![](./assets/window.png)
+
+软件共有六个按钮代表不同的功能。
+
+- 第一个按钮：启动和关闭服务。
+- 第二个按钮：监听系统音频输出，并翻译为中文并将内容显示到聊天区。
+- 第三个按钮：用户英语输入，监听用户的语音输入（建议用中文）并翻译成英语，显示到两个输入框中。输入框中的内容可以修改。
+- 第四个按钮：调用大语言模型将输入框左边的内容翻译成英语，这个翻译会比语音模型自带的翻译更准确。
+- 第五个按钮：将输入框右边的英语内容合成为音频。
+- 第六个按钮：将合成的音频同时进行播放和注入到 [VB Cable](https://vb-audio.com/Cable/) 虚拟音频设备中。
+
+**软件的功能比较灵活，可以用于游戏之外。**
+
 ## 📖 基本使用
+
+[介绍视频](https://www.bilibili.com/video/BV1kVbJzjEv7)
 
 该项目仅支持 Windows 系统。
 
@@ -37,6 +60,17 @@
 之后每次启动游戏时，打开系统的“音量合成器”选项，首先设置游戏的输入设备为默认，待游戏启动后再改为 CABLE Output。
 
 <img src="./assets/mixer.png" style="zoom:40%;" />
+
+## 📊 模型清单
+
+该软件可能用到的模型列表如下
+
+| 模型                | 类型           | 链接                                                         | 备注                                           |
+| ------------------- | -------------- | ------------------------------------------------------------ | ---------------------------------------------- |
+| `gummy-realtime-v1` | 阿里云模型     | [Gummy](https://bailian.console.aliyun.com/?tab=model#/model-market/detail/gummy-realtime-v1) | 实时语音识别模型                               |
+| `cosyvoice-v2`      | 阿里云模型     | [Cosyvoice](https://bailian.console.aliyun.com/?tab=model#/model-market/detail/cosyvoice-v2) | 语音合成模型                                   |
+| `qwen-max`          | 阿里云模型     | [Qwen-Max](https://bailian.console.aliyun.com/?tab=model#/model-market/detail/qwen-max?modelGroup=qwen-max) | 通用大语言模型，用于将识别的中文内容翻译成英语 |
+| 自定义              | Ollama本地模型 | [Ollama](https://ollama.com/)                                | 本地大语言模型，用于将识别的中文内容翻译成英语 |
 
 ## 🚀 运行项目
 

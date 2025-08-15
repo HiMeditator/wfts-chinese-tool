@@ -19,6 +19,11 @@ export function commHandler() {
     chatProcess.sendCommand('break')
   })
 
+  ipcMain.on('server.translate', (_, data) => {
+    console.log('translate', data)
+    chatProcess.sendCommand('translate', JSON.stringify(data))
+  })
+
   ipcMain.on('server.synthesis', (_, data) => {
     chatProcess.sendCommand('synthesis', data)
   })

@@ -61,23 +61,50 @@
       >语音输入</a-button>
     </div>
     <div class="main-control">
+    <a-popover title="翻译选项">
+      <template #content>
+        <div style="margin-bottom: 10px;">
+          <span class="label">模型选项</span>
+          <a-radio-group v-model:value="modelType">
+            <a-radio-button value="remote">云端模型</a-radio-button>
+            <a-radio-button value="ollama">Ollama模型</a-radio-button>
+          </a-radio-group>          
+        </div>
+        <div>
+          <span class="label">模型名称</span>
+          <a-input
+            v-model:value="modelName" placeholder="模型名称"
+            style="width: 190px;"
+          />          
+        </div>
+      </template>
+      <a-button
+        size="small" type="primary" @click="send('translate')"
+        :disabled="status !== 'ready'"
+        :loading="status === 'translating'"
+      >翻译为英语</a-button>
+      </a-popover>
       <a-button
         size="small" type="primary" @click="send('synthesis')"
         :disabled="status !== 'ready'"
         :loading="status === 'synthesising'"
-      >回答音频合成</a-button>
+      >音频合成</a-button>
       <a-button
         size="small" type="primary" @click="send('output')"
         :disabled="status !== 'ready'"
         :loading="status === 'outputting'"
-      >回答音频输出</a-button>
+      >音频输出</a-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@renderer/stores/data'
+
+const modelType = ref('remote')
+const modelName = ref('qwen-max')
 
 const dataStore = useDataStore()
 const {
@@ -89,6 +116,12 @@ function send(cmd: string){
   if(cmd === 'synthesis') {
     window.electron.ipcRenderer.send(`server.${cmd}`, answer_en.value)
     dataStore.addResponse()
+  }
+  else if(cmd === 'translate') { 
+    window.electron.ipcRenderer.send(
+      `server.${cmd}`,
+      { type: modelType.value, name: modelName.value, text: answer_zh.value }
+    )
   }
   else {
     window.electron.ipcRenderer.send(`server.${cmd}`)
@@ -116,6 +149,12 @@ function send(cmd: string){
   margin-top: 10px;
   display: flex;
   justify-content: center;
+}
+
+.label {
+  width: 100px;
+  text-align: right;
+  margin-right: 10px;
 }
 
 button {

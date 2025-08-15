@@ -41,7 +41,7 @@ Python 进程标准输出 (`sys.stdout`) 的内容一定为一行一行的字符
 ```js
 {
   command: "status",
-  content: "ready" | "listening" | "recording" | "synthesising" | "outputting"
+  content: "ready" | "listening" | "recording" | "translating" | "synthesising" | "outputting"
 }
 ```
 
@@ -73,4 +73,4 @@ Python 进程标准输出 (`sys.stdout`) 的内容一定为一行一行的字符
 }
 ```
 
-用户录音音频对应的文字。
+用户录音音频对应的文字。`index` 为 `-1` 时输出的大模型翻译内容。

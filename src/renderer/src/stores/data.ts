@@ -16,6 +16,7 @@ export const useDataStore = defineStore('data', () => {
       case 'stopped': return '未连接';
       case 'connecting': return '正在连接';
       case 'ready': return '准备就绪';
+      case 'translating': return '翻译中';
       case 'listening': return '语音监听';
       case 'recording': return '语音输入';
       case 'synthesising': return '语音合成';
@@ -70,6 +71,12 @@ export const useDataStore = defineStore('data', () => {
       })
     }
     else if(msg.command === 'record') {
+      if(msg.index === -1) {
+        answer_en.value = msg.translation,
+        answer_zh.value = msg.text
+        answer_en_pre = ""
+        answer_zh_pre = ""
+      }
       answer_en.value = answer_en_pre + msg.translation
       answer_zh.value = answer_zh_pre + msg.text
       if(msg.end) {

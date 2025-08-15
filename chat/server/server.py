@@ -40,9 +40,12 @@ def handle_client(client_socket):
                 chat_bot.start_recording()
                 chat_bot.status = 'record'
 
+            elif data['command'] == 'translate':
+                options = json.loads(data['content'])
+                chat_bot.translate(options['type'], options['name'], options['text'])
+
             elif data['command'] == 'synthesis':
                 chat_bot.text = data['content']
-                stdout_cmd('print', data['content'])
                 chat_bot.synthesis()
 
             elif data['command'] == 'output':

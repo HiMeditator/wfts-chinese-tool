@@ -4,7 +4,7 @@ from utils import GummyTranslator
 from utils.sysout import stdout_obj, stdout_cmd
 from dashscope.api_entities.dashscope_response import Message
 from dashscope.audio.tts_v2 import SpeechSynthesizer, AudioFormat
-
+from .llm_chat import llm_translate
 
 class ChatBot:
     def __init__(self):
@@ -21,7 +21,7 @@ class ChatBot:
         self.translator1 = GummyTranslator(
             self.stdout_rec_obj,
             self.stream1.RATE,
-            "zh", "en", ""
+            "", "en", ""
         )
 
     def start_listening(self):
@@ -55,6 +55,22 @@ class ChatBot:
         self.stream1.closeStream()
         self.translator1.stop()
         chat_bot.status = 'ready'
+        stdout_cmd('status', 'ready')
+
+    def translate(self, m_type: str, m_name: str, text: str):
+        """翻译"""
+        self.status = 'translate'
+        stdout_cmd('status', 'translating')
+        translation =llm_translate(m_type, m_name, text)
+        self.text = translation
+        stdout_obj({
+            "command": "record",
+            "index": -1,
+            "end": True,
+            "text": text,
+            "translation": translation
+        })
+        self.status = 'ready'
         stdout_cmd('status', 'ready')
 
     def synthesis(self):

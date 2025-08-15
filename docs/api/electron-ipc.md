@@ -30,6 +30,20 @@
 
 **数据类型：** 无数据
 
+### `server.translate`
+
+**介绍：** 让 Python 后端服务将中文内容翻译成英语
+
+**数据类型：**
+
+```ts
+{
+  type: "remote" | "ollama",
+  name: string,
+  text: string
+}
+```
+
 ### `server.synthesis`
 
 **介绍：** 让 Python 后端服务将文本合成为音频

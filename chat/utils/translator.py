@@ -64,7 +64,7 @@ class GummyTranslator:
             sample_rate = rate,
             transcription_enabled = True,
             translation_enabled = (target is not None),
-            source_language = source,
+            source_language = source if source != "" else "auto",
             translation_target_languages = [target],
             callback = Callback(add_func)
         )
