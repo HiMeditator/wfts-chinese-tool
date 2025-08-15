@@ -10,6 +10,7 @@ export const useDataStore = defineStore('data', () => {
   const answer_zh = ref<string>('')
   const messages = ref<Message[]>([])
   const logs = ref<ConsoleLog[]>([])
+  const immSynthesis = ref(false)
 
   const status_zh = computed(() => {
     switch(status.value){
@@ -76,6 +77,11 @@ export const useDataStore = defineStore('data', () => {
         answer_zh.value = msg.text
         answer_en_pre = ""
         answer_zh_pre = ""
+        if(immSynthesis.value) {
+          window.electron.ipcRenderer.send(`server.synthesis`, answer_en.value)
+          addResponse()
+        }
+        return
       }
       answer_en.value = answer_en_pre + msg.translation
       answer_zh.value = answer_zh_pre + msg.text
@@ -93,6 +99,7 @@ export const useDataStore = defineStore('data', () => {
     answer_zh,
     messages,
     logs,
+    immSynthesis,
     addResponse,
   }
 })

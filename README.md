@@ -3,7 +3,7 @@
     <h1 align="center">wfts-chinese-tool</h1>
     <p>wfts-chinese-tool 为中文玩家准备的一个工具软件。用户可以通过该软件获取对话的中文翻译，用户还可以将中文语音转换为英语并输入到游戏中。</p>
     <p>
-      <a href="https://github.com/HiMeditator/wfts-chinese-tool/releases"><img src="https://img.shields.io/badge/release-0.1.0-blue"></a>
+      <a href="https://github.com/HiMeditator/wfts-chinese-tool/releases"><img src="https://img.shields.io/badge/release-0.2.0-blue"></a>
       <a href="https://github.com/HiMeditator/wfts-chinese-tool/issues"><img src="https://img.shields.io/github/issues/HiMeditator/wfts-chinese-tool?color=orange"></a>
       <img src="https://img.shields.io/github/languages/top/HiMeditator/wfts-chinese-tool?color=royalblue">
       <img src="https://img.shields.io/github/repo-size/HiMeditator/wfts-chinese-tool?color=green">
@@ -18,6 +18,7 @@
 - 中文输入英语翻译
 - 英语音频合成
 - 合成音频播放与注入
+- 聊天记录和日志导出
 
 ## 📥 软件下载
 
@@ -37,6 +38,12 @@
 - 第四个按钮：调用大语言模型将输入框左边的内容翻译成英语，这个翻译会比语音模型自带的翻译更准确。
 - 第五个按钮：将输入框右边的英语内容合成为音频。
 - 第六个按钮：将合成的音频同时进行播放和注入到 [VB Cable](https://vb-audio.com/Cable/) 虚拟音频设备中。
+
+除此之外，将鼠标悬浮到图中红色位置还有额外选项：
+
+- ①：导出聊天记录、清空聊天记录
+- ②：导出日志记录、清空日志记录
+- ③：选择翻译模型（阿里云大语言模型、本地Ollama模型），选择是否在翻译后立即合成对应音频
 
 **软件的功能比较灵活，可以用于游戏之外。**
 

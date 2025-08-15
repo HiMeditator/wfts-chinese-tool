@@ -18,7 +18,7 @@ def audio_output(audio: bytes) -> None:
     stream.write(audio)
     stream.close()
     p.terminate()
-    stdout("Audio played.")
+    # stdout("Audio played.")
 
 
 def audio_inject(audio: bytes) -> None:
@@ -37,7 +37,7 @@ def audio_inject(audio: bytes) -> None:
     if index == -1:
         stderr("CABLE Input (VB-Audio Virtual Cable) not found")
         return
-    stdout(json.dumps(p.get_device_info_by_index(index)))
+    # stdout(json.dumps(p.get_device_info_by_index(index)))
     stream = p.open(
         format=pyaudio.paInt16,
         channels=1,
@@ -46,7 +46,7 @@ def audio_inject(audio: bytes) -> None:
         output_device_index=index
     )
     stream.write(audio)
-    stdout("Audio injected.")
+    # stdout("Audio injected.")
 
 
 def play_both(audio: bytes) -> None:

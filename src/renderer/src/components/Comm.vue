@@ -4,12 +4,40 @@
       <a-col :span="8">
         <a-statistic title="状态" :value="status_zh" :value-style="{fontSize:'16px'}"/>
       </a-col>
-      <a-col :span="8">
-        <a-statistic title="消息数" :value="messages.length" :value-style="{fontSize:'16px'}"/>
-      </a-col>
-      <a-col :span="8">
-        <a-statistic title="日志数" :value="logs.length" :value-style="{fontSize:'16px'}"/>
-      </a-col>
+      <a-popover title="消息选项">
+        <template #content>
+          <a-button
+            type="primary"
+            size="small"
+            @click="exportData(false)"
+          >导出消息</a-button>
+          <a-button
+            danger ghost
+            size="small"
+            @click="clearData(false)"
+          >清空消息</a-button>
+        </template>
+        <a-col :span="8">
+          <a-statistic title="消息数" :value="messages.length" :value-style="{fontSize:'16px'}"/>
+        </a-col>
+      </a-popover>
+      <a-popover title="日志选项">
+        <template #content>
+          <a-button
+            type="primary"
+            size="small"
+            @click="exportData(true)"
+          >导出日志</a-button>
+          <a-button
+            danger ghost
+            size="small"
+            @click="clearData(true)"
+          >清空日志</a-button>
+        </template>
+        <a-col :span="8">
+          <a-statistic title="日志数" :value="logs.length" :value-style="{fontSize:'16px'}"/>
+        </a-col>
+      </a-popover>
     </a-row>
     <a-row>
       <a-col :span="12">
@@ -70,12 +98,16 @@
             <a-radio-button value="ollama">Ollama模型</a-radio-button>
           </a-radio-group>          
         </div>
-        <div>
+        <div style="margin-bottom: 10px;">
           <span class="label">模型名称</span>
           <a-input
             v-model:value="modelName" placeholder="模型名称"
             style="width: 190px;"
           />          
+        </div>
+        <div>
+          <span style="margin-right: 10px;">翻译后立即进行合成</span>
+          <a-switch v-model:checked="immSynthesis"/>
         </div>
       </template>
       <a-button
@@ -108,11 +140,11 @@ const modelName = ref('qwen-max')
 
 const dataStore = useDataStore()
 const {
-  status, answer_zh ,answer_en, messages, logs, status_zh
+  status, answer_zh ,answer_en,
+  messages, logs, status_zh, immSynthesis
 } = storeToRefs(dataStore)
 
 function send(cmd: string){
-  console.log('send', cmd)
   if(cmd === 'synthesis') {
     window.electron.ipcRenderer.send(`server.${cmd}`, answer_en.value)
     dataStore.addResponse()
@@ -125,6 +157,41 @@ function send(cmd: string){
   }
   else {
     window.electron.ipcRenderer.send(`server.${cmd}`)
+  }
+}
+
+function exportData(isLogs: boolean){
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
+  if(isLogs){
+    exportToJson(logs.value, `log_${timestamp}.json`)
+  }
+  else {
+    exportToJson(messages.value, `msg_${timestamp}.json`)
+  }
+}
+
+function exportToJson(data: any, filename: string) {
+  const jsonData = JSON.stringify(data, null, 2)
+  const blob = new Blob([jsonData], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename
+  document.body.appendChild(a)
+  a.click()
+  setTimeout(() => {
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }, 100)
+}
+
+
+function clearData(isLogs: boolean){
+  if(isLogs) {
+    logs.value = []
+  }
+  else {
+    messages.value = []
   }
 }
 </script>
