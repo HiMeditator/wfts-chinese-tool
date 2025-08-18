@@ -45,11 +45,11 @@ def handle_client(client_socket):
                 chat_bot.translate(options['type'], options['name'], options['text'])
 
             elif data['command'] == 'synthesis':
+                chat_bot.status = 'synthesis'
                 chat_bot.text = data['content']
-                chat_bot.synthesis()
 
             elif data['command'] == 'output':
-                chat_bot.output()
+                chat_bot.status = 'output'
 
             else:
                 stderr('Command Error: Client command not found.')

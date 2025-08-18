@@ -75,7 +75,6 @@ class ChatBot:
 
     def synthesis(self):
         """语音合成"""
-        self.status = 'synthesis'
         stdout_cmd('status', 'synthesising')
         synthesizer = SpeechSynthesizer(
             model='cosyvoice-v2',
@@ -88,7 +87,6 @@ class ChatBot:
 
     def output(self):
         """将音频数据输出到麦克风"""
-        self.status = 'output'
         stdout_cmd('status', 'outputting')
         if self.audio:
             play_both(self.audio)

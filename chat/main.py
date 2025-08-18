@@ -16,6 +16,12 @@ def main():
             if chunk == None: continue
             chat_bot.translator1.send_audio_frame(chunk)
         
+        while chat_bot.status == "synthesis":
+            chat_bot.synthesis()
+
+        while chat_bot.status == "output":
+            chat_bot.output()
+
         time.sleep(0.2)
 
 if __name__ == "__main__":
