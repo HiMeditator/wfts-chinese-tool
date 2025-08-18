@@ -1,4 +1,3 @@
-import json
 import time
 import threading
 import pyaudiowpatch as pyaudio

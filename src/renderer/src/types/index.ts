@@ -1,5 +1,5 @@
 export type Status =
-  'stopped' | 'connecting' | 'ready' | 'translating' |
+  'stopped' | 'pending' | 'connecting' | 'ready' | 'translating' |
   'listening' | 'recording' | 'synthesising' | 'outputting'
 
 export interface ConsoleLog {

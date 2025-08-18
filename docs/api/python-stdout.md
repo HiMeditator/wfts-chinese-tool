@@ -23,7 +23,7 @@ Python 进程标准输出 (`sys.stdout`) 的内容一定为一行一行的字符
 }
 ```
 
-表示 Python 端已就绪，node.js 端可以开始建立 WebSocket 连接了。
+表示 Python 端已就绪，node.js 端可以开始建立 Socket 连接了。
 
 ### `print`
 

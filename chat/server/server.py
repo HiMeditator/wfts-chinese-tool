@@ -62,9 +62,9 @@ def handle_client(client_socket):
     client_socket.close()
 
 
-def start_server():
+def start_server(port: int):
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(('localhost', 8000))
+    server.bind(('localhost', port))
     server.listen(1)
     stdout_cmd('ready')
 

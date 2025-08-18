@@ -44,6 +44,7 @@ class ChatProcess {
   command: string[] = []
   process: any | undefined
   client: net.Socket | undefined
+  port: number = 8080
   status: 'running' | 'stopping' | 'stopped' = 'stopped'
 
   constructor() {
@@ -75,8 +76,7 @@ class ChatProcess {
   }
 
   public connect(){
-    Log.info('Connecting to python server...');
-    this.client = net.createConnection({ port: 8000 }, () => {
+    this.client = net.createConnection({ port: this.port }, () => {
       Log.info('Connected to python server');
       handleMessage({ command: 'status', content: 'ready' })
     });
@@ -86,6 +86,21 @@ class ChatProcess {
     if (this.status !== 'stopped') {
       Log.warn('Python server is not stopped, current status:', this.status)
       return
+    }
+
+    this.port = Math.floor(Math.random() * (65535 - 1024 + 1)) + 1024
+
+    if(is.dev){
+      this.command = [
+        path.join(
+          app.getAppPath(),
+          'chat', 'main.py'
+        ),
+        '-p', this.port.toString()
+      ]
+    }
+    else {
+      this.command = ['-p', this.port.toString()]
     }
 
     this.process = spawn(this.appPath, this.command)
@@ -120,7 +135,6 @@ class ChatProcess {
 
   public stop() {
     if(this.status !== 'running') return
-    Log.info('Stopping python server...')
     this.sendCommand('stop')
     if(this.client){
       this.client.destroy()

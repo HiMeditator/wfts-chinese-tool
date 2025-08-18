@@ -18,7 +18,14 @@
           >清空消息</a-button>
         </template>
         <a-col :span="8">
-          <a-statistic title="消息数" :value="messages.length" :value-style="{fontSize:'16px'}"/>
+          <a-statistic title="消息数"
+            :value="messages.length"
+            :value-style="{fontSize:'16px'}"
+          >
+            <template #suffix>
+              <InfoCircleOutlined style="font-size:14px;color:#1677ff"/>
+            </template>
+          </a-statistic>
         </a-col>
       </a-popover>
       <a-popover title="日志选项">
@@ -35,7 +42,14 @@
           >清空日志</a-button>
         </template>
         <a-col :span="8">
-          <a-statistic title="日志数" :value="logs.length" :value-style="{fontSize:'16px'}"/>
+          <a-statistic title="日志数"
+            :value="logs.length"
+            :value-style="{fontSize:'16px'}"
+          >
+            <template #suffix>
+              <InfoCircleOutlined style="font-size:14px;color:#1677ff"/>
+            </template>
+          </a-statistic>
         </a-col>
       </a-popover>
     </a-row>
@@ -62,8 +76,11 @@
       </a-col>
     </a-row>
     <div class="main-control">
-      <template v-if="status === 'stopped'">
-        <a-button size="small" type="primary" @click="send('start')">启动</a-button>
+      <template v-if="status === 'stopped' || status === 'pending'">
+        <a-button size="small" type="primary"
+          @click="clickStart()"
+          :loading="status === 'pending'"
+        >启动</a-button>
       </template>
       <template v-else>
         <a-button size="small" danger ghost
@@ -134,6 +151,7 @@
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@renderer/stores/data'
+import { InfoCircleOutlined } from '@ant-design/icons-vue'
 
 const modelType = ref('remote')
 const modelName = ref('qwen-max')
@@ -143,6 +161,13 @@ const {
   status, answer_zh ,answer_en,
   messages, logs, status_zh, immSynthesis
 } = storeToRefs(dataStore)
+
+console.log(status.value)
+
+function clickStart() {
+  send('start')
+  status.value = 'pending'
+}
 
 function send(cmd: string){
   if(cmd === 'synthesis') {

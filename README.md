@@ -1,9 +1,10 @@
 <div align="center" >
     <img src="./build/icon.png" width="100px" height="100px"/>
     <h1 align="center">wfts-chinese-tool</h1>
-    <p>wfts-chinese-tool 为中文玩家准备的一个工具软件。用户可以通过该软件获取对话的中文翻译，用户还可以将中文语音转换为英语并输入到游戏中。</p>
+    <p>该软件主要为 <i>Whispers from the Stars</i> 游戏开发。</p>
+    <p>wfts-chinese-tool 是一个为中文玩家准备的工具软件。用户可以通过该软件获取系统音频的实时中文翻译，用户还可以将中文语音转换为英语并输入到 VB Cable 虚拟音频设备中。</p>
     <p>
-      <a href="https://github.com/HiMeditator/wfts-chinese-tool/releases"><img src="https://img.shields.io/badge/release-0.2.0-blue"></a>
+      <a href="https://github.com/HiMeditator/wfts-chinese-tool/releases"><img src="https://img.shields.io/badge/release-0.3.0-blue"></a>
       <a href="https://github.com/HiMeditator/wfts-chinese-tool/issues"><img src="https://img.shields.io/github/issues/HiMeditator/wfts-chinese-tool?color=orange"></a>
       <img src="https://img.shields.io/github/languages/top/HiMeditator/wfts-chinese-tool?color=royalblue">
       <img src="https://img.shields.io/github/repo-size/HiMeditator/wfts-chinese-tool?color=green">
@@ -14,11 +15,11 @@
 
 ## ✨ 软件特性
 
-- 获取对话和翻译
-- 中文输入英语翻译
-- 英语音频合成
-- 合成音频播放与注入
-- 聊天记录和日志导出
+- 识别记录和日志导出
+- 将英语内容合成为音频
+- 获取实时英语音频的原文和翻译
+- 将中文输入用大模型翻译成英语
+- 将合成的音频进行播放并注入 VB Cable 虚拟设备
 
 ## 📥 软件下载
 

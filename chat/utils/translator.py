@@ -6,7 +6,7 @@ from dashscope.audio.asr import (
 )
 from dashscope.common.error import InvalidParameter
 import dashscope
-from utils import stdout, stderr
+from utils import stderr
 
 class Callback(TranslationRecognizerCallback):
     """

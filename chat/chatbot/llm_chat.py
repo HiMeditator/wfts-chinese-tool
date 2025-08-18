@@ -28,7 +28,7 @@ def llm_translate(m_type: str, m_name: str, text: str) -> str:
         return dashscope_chat(m_name, messages)
     else:
         messages = [
-            {"role": "system", "content": "将以下内容翻译成英语，除此之外不要输出任何额外信息。"},
+            {"role": "system", "content": "/no_think 将以下内容翻译成英语，除此之外不要输出任何额外信息。"},
             {"role": "user", "content": text}
         ]
         return ollama_chat(m_name, messages)

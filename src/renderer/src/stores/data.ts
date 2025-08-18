@@ -15,6 +15,7 @@ export const useDataStore = defineStore('data', () => {
   const status_zh = computed(() => {
     switch(status.value){
       case 'stopped': return '未连接';
+      case 'pending': return '等待连接';
       case 'connecting': return '正在连接';
       case 'ready': return '准备就绪';
       case 'translating': return '翻译中';

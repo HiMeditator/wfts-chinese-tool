@@ -2,7 +2,7 @@
   <div class="title-bar">
     <div class="drag-area">
       <img src="../assets/icon.svg" class="logo" >
-      <span class="title">WftS 中文工具</span>
+      <span class="title">WftS 中文工具 <code>v0.3.0</code></span>
     </div>
     <div class="option-item" @click="pin">
       <PushpinFilled v-if="pinned" />
