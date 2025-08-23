@@ -7,6 +7,7 @@ from dashscope.audio.asr import (
 from dashscope.common.error import InvalidParameter
 import dashscope
 from utils import stderr
+from typing import Optional
 
 class Callback(TranslationRecognizerCallback):
     """
@@ -54,7 +55,7 @@ class GummyTranslator:
         source: 音频源语言（zh, en, ja 等）
         target: 翻译目标语言（zh, en, ja 等，None 表示不翻译）
     """
-    def __init__(self, add_func, rate: int, source: str, target: str | None, api_key: str):
+    def __init__(self, add_func, rate: int, source: str, target: Optional[str], api_key: str):
         if api_key:
             dashscope.api_key = api_key
         self.running = False

@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from server import start_server
 from chatbot import chat_bot
 from utils import stdout
@@ -10,12 +13,12 @@ def main():
             chunk = chat_bot.stream0.read_chunk()
             if chunk == None: continue
             chat_bot.translator0.send_audio_frame(chunk)
-        
+
         while chat_bot.status == "record":
             chunk = chat_bot.stream1.read_chunk()
             if chunk == None: continue
             chat_bot.translator1.send_audio_frame(chunk)
-        
+
         while chat_bot.status == "synthesis":
             chat_bot.synthesis()
 
