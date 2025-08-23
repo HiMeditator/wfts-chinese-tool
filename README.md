@@ -60,6 +60,7 @@
 - [将 API Key 配置到环境变量](https://help.aliyun.com/zh/model-studio/configure-api-key-through-environment-variables)
 
 **如果没有将阿里云的 API KEY 配置到环境变量，该项目将无法正常工作！**
+- 关于环境变量的配置，如果您不想污染自己的环境变量或者觉得阿里云提供的方式有些麻烦，可以在chat文件夹下仿照.env.example文件创建.env文件，将API KEY填入其中即可。
 
 除此之外，还需要安装 [VB Cable](https://vb-audio.com/Cable/) 虚拟音频设备软件。软件将使用该音频设备将合成的英语音频注入到游戏的虚拟麦克风中。
 

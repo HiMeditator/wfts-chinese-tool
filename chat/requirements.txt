@@ -3,3 +3,4 @@ dashscope
 numpy
 PyAudioWPatch
 pyinstaller
+python-dotenv
