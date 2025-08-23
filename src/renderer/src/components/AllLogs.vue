@@ -1,5 +1,5 @@
 <template>
-  <div class="all-logs">
+  <div ref="allLogsContainer" class="all-logs">
     <div class="nav-bar">
       <a-menu
         v-model:selectedKeys="current"
@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, h } from 'vue'
+import { ref, h, watch, nextTick } from 'vue'
 import { storeToRefs } from 'pinia';
 import { useDataStore } from '@renderer/stores/data'
 import { MailOutlined, AppstoreOutlined } from '@ant-design/icons-vue';
@@ -56,6 +56,21 @@ const dataStore = useDataStore()
 const { logs, messages } = storeToRefs(dataStore)
 
 const current = ref<string[]>(['messages']);
+const allLogsContainer = ref<HTMLElement>()
+
+// 自动滚动到底部的函数
+const scrollToBottom = () => {
+  nextTick(() => {
+    if (!allLogsContainer.value) return
+    allLogsContainer.value.scrollTop = allLogsContainer.value.scrollHeight
+  })
+}
+
+watch(messages, () => { scrollToBottom()
+}, { deep: true })
+watch(logs, () => {
+  scrollToBottom()
+}, { deep: true })
 </script>
 
 <style scoped>
